@@ -48,10 +48,6 @@ void loop() {
     }
   
   } else {                      // If motorMode=Manual
-    if(digitalRead(D6) == HIGH){
-      digitalWrite(D4, HIGH); 
-    } else {
-      digitalWrite(D4, LOW);       
-    }
+    digitalWrite(D4, digitalRead(D6));      // Motor works on D6 btn
   }
 }
