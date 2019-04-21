@@ -13,8 +13,12 @@ ThingerESP8266 thing(USERNAME, DEVICE_ID, DEVICE_CREDENTIAL);
 void setup() {
   Serial.begin(9600); 
   pinMode(D0, OUTPUT);                // Motor/LED
+
   pinMode(D5, OUTPUT);                // HIGH:Auto, LOW:Manual
   digitalWrite(D5, HIGH);
+  
+  pinMode(D6, OUTPUT);                // 0:OFF, 1:ON
+  digitalWrite(D6, LOW);
   
   thing.add_wifi(SSID, SSID_PASSWORD);
 
@@ -22,13 +26,13 @@ void setup() {
   // OUTPUT
   thing["motor"] << digitalPin(D0);
   thing["motorMode"] << digitalPin(D5);
+  thing["motorManualBtn"] << digitalPin(D6);
 
   // resource output example (i.e. reading a sensor value)
   // INPUT
   thing["headStorageBaseFloat"] >> outputValue(digitalRead(D1));
   thing["headStorageTopFloat"] >> outputValue(digitalRead(D2));
   thing["footStorageBaseFloat"] >> outputValue(digitalRead(D7));
-  thing["motorManualBtn"] >> outputValue(digitalRead(D6));
   
   // thing["millis"] >> outputValue(millis());
   // more details at http://docs.thinger.io/arduino/
@@ -59,7 +63,6 @@ void loop() {
   } else {                      // If motorMode=Manual
     digitalWrite(D0, digitalRead(D6));      // Motor works on D6 btn
   }
-  Serial.println("--");
   delay(1000);
+  Serial.println("--");
 }
-
